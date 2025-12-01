@@ -1,5 +1,6 @@
 name: "Perl Author & Release Tests"
-description: "Installs dependencies and performs author and release tests."inputs:
+description: "Installs dependencies and performs author and release tests."
+inputs:
   verbose:
     description: "Controls whether cpanm should be run with --verbose"
     required: false
