@@ -1,0 +1,59 @@
+name: "Perl Author & Release Tests"
+description: "Installiert Abhängigkeiten und führt Autor- und Release-Tests durch."
+runs:
+  using: "composite"
+  steps:
+    
+    - name: Show perl version
+      shell: bash
+      run: perl -v
+
+    - name: Set env variables TEST_AUTHOR and RELEASE_TESTING
+      shell: bash
+      run: |
+        echo "TEST_AUTHOR=1" >> $GITHUB_ENV
+        echo "RELEASE_TESTING=1" >> $GITHUB_ENV
+
+    - name: Build distribution
+      run: |
+        perl Makefile.PL
+        make manifest || true
+        make dist
+
+    - name: Install dependencies
+      shell: bash
+      run: cpanm --notest --installdeps --with-develop --with-test --verbose .
+
+    - name: Unpack distribution
+      run: |
+        tar xzf *.tar.gz
+        DISTFILE=$(ls -1t *.tar.gz | head -n1)
+        echo "DIST_DIR=${DISTFILE%.tar.gz}" >> $GITHUB_ENV
+        echo "Found distribution: $DISTFILE"
+        tar -xzf $DISTFILE
+
+    - name: Author tests (if any)
+      shell: bash
+      env:
+        AUTH_DIR: xt/author
+      run: |
+        cd $DIST_DIR
+        if [ -d $AUTH_DIR ]; then
+          echo "Perform author tests..."
+          prove -l $AUTH_DIR
+        else
+          echo "No $AUTH_DIR/ found – skip author tests."
+        fi
+
+    - name: Release tests (if any)
+      shell: bash
+      env:
+        REL_DIR: xt/release 
+      run: |
+        cd $DIST_DIR
+        if [ -d $REL_DIR ]; then
+          echo "Perform release tests..."
+          prove -l $REL_DIR
+        else
+          echo "No $REL_DIR/ found – skip release tests."
+        fi
