@@ -1,5 +1,9 @@
 name: "Perl Author & Release Tests"
-description: "Installiert Abhängigkeiten und führt Autor- und Release-Tests durch."
+description: "Installs dependencies and performs author and release tests."inputs:
+  verbose:
+    description: "Controls whether cpanm should be run with --verbose"
+    required: false
+    default: "false"
 runs:
   using: "composite"
   steps:
@@ -23,7 +27,11 @@ runs:
 
     - name: Install dependencies
       shell: bash
-      run: cpanm --notest --installdeps --with-develop --with-test --verbose .
+      env:
+        VERBOSE: ${{ inputs.verbose }}
+      run: |
+        VERBOSE=$([ "$VERBOSE" == "true" ] && echo "--verbose" || echo "")
+        cpanm --notest --installdeps --with-develop --with-test $VERBOSE .
 
     - name: Unpack distribution
       shell: bash
