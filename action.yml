@@ -8,7 +8,12 @@ inputs:
 runs:
   using: "composite"
   steps:
-    
+    - name: Install spell checker
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y aspell aspell-en
+
     - name: Show perl version
       shell: bash
       run: perl -v
