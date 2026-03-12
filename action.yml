@@ -17,6 +17,7 @@ runs:
       shell: bash
       run: |
         echo "TEST_AUTHOR=1" >> $GITHUB_ENV
+        echo "AUTHOR_TESTING=1" >> $GITHUB_ENV
         echo "RELEASE_TESTING=1" >> $GITHUB_ENV
 
     - name: Build distribution
