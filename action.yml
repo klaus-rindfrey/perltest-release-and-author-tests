@@ -45,8 +45,8 @@ runs:
       run: |
         tar xzf *.tar.gz
         DISTFILE=$(ls -1t *.tar.gz | head -n1)
-        echo "DIST_DIR=${DISTFILE%.tar.gz}" >> $GITHUB_ENV
         echo "Found distribution: $DISTFILE"
+        echo "DIST_DIR=${DISTFILE%.tar.gz}" >> $GITHUB_ENV
         tar -xzf $DISTFILE
 
     - name: Author tests (if any)
