@@ -5,6 +5,11 @@ inputs:
     description: "Controls whether cpanm should be run with --verbose"
     required: false
     default: "false"
+  release_test_addn:
+    description: "Controls whether additional release tests should be run"
+    required: false
+    default: "0"
+
 runs:
   using: "composite"
   steps:
@@ -18,12 +23,13 @@ runs:
       shell: bash
       run: perl -v
 
-    - name: Set env variables TEST_AUTHOR and RELEASE_TESTING
+    - name: Set env variables AUTHOR_TESTING, RELEASE_TESTING* and TEST_AUTHOR.
       shell: bash
       run: |
-        echo "TEST_AUTHOR=1" >> $GITHUB_ENV
         echo "AUTHOR_TESTING=1" >> $GITHUB_ENV
         echo "RELEASE_TESTING=1" >> $GITHUB_ENV
+        echo "RELEASE_TEST_ADDN=${{ inputs.release_test_addn }}" >> $GITHUB_ENV
+        echo "TEST_AUTHOR=1" >> $GITHUB_ENV
 
     - name: Build distribution
       shell: bash
