@@ -35,8 +35,8 @@ runs:
       shell: bash
       run: |
         perl Makefile.PL
-        make manifest || true
         make
+        make manifest || true
         make dist
 
     - name: Install dependencies
