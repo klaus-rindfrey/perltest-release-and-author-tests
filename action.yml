@@ -29,7 +29,7 @@ runs:
         echo "AUTHOR_TESTING=1" >> $GITHUB_ENV
         echo "RELEASE_TESTING=1" >> $GITHUB_ENV
         echo "RELEASE_TEST_ADDN=${{ inputs.release_test_addn }}" >> $GITHUB_ENV
-        if [[ "${{ inputs.release_test_addn }}" == "true"]]
+        if [[ "${{ inputs.release_test_addn }}" == "true" ]]
             echo "RELEASE_TEST_ADDN=1" >> $GITHUB_ENV
         else
             echo "RELEASE_TEST_ADDN=0" >> $GITHUB_ENV
