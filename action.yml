@@ -59,6 +59,7 @@ runs:
     - name: Run tests in xt (if any)
       shell: bash
       run: |
+        cd $DIST_DIR
         if [ -d xt ]; then
           echo "Perform xt tests..."
           prove -l --recurse xt
