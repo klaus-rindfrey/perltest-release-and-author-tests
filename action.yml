@@ -29,11 +29,12 @@ runs:
         echo "AUTHOR_TESTING=1" >> $GITHUB_ENV
         echo "RELEASE_TESTING=1" >> $GITHUB_ENV
         echo "RELEASE_TEST_ADDN=${{ inputs.release_test_addn }}" >> $GITHUB_ENV
-        if [[ "${{ inputs.release_test_addn }}" == "true" ]]
-            echo "RELEASE_TEST_ADDN=1" >> $GITHUB_ENV
+        if [[ "${{ inputs.release_test_addn }}" == "true" ]]; then
+          r_val=1
         else
-            echo "RELEASE_TEST_ADDN=0" >> $GITHUB_ENV
+          r_val=0
         fi
+        echo "RELEASE_TEST_ADDN=$r_val" >> $GITHUB_ENV
         echo "TEST_AUTHOR=1" >> $GITHUB_ENV
 
     - name: Build distribution
