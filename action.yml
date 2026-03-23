@@ -55,28 +55,13 @@ runs:
         echo "DIST_DIR=${DISTFILE%.tar.gz}" >> $GITHUB_ENV
         tar -xzf $DISTFILE
 
-    - name: Author tests (if any)
+    - name: Run tests in xt (if any)
       shell: bash
-      env:
-        AUTH_DIR: xt/author
       run: |
-        cd $DIST_DIR
-        if [ -d $AUTH_DIR ]; then
-          echo "Perform author tests..."
-          prove -l $AUTH_DIR
+        if [ -d xt ]; then
+          echo "Perform xt tests..."
+          prove -l --recurse xt
         else
-          echo "No $AUTH_DIR/ found – skip author tests."
+          echo "No xt/ found – skip xt tests."
         fi
 
-    - name: Release tests (if any)
-      shell: bash
-      env:
-        REL_DIR: xt/release 
-      run: |
-        cd $DIST_DIR
-        if [ -d $REL_DIR ]; then
-          echo "Perform release tests..."
-          prove -l $REL_DIR
-        else
-          echo "No $REL_DIR/ found – skip release tests."
-        fi
