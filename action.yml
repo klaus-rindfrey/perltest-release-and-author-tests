@@ -8,7 +8,7 @@ inputs:
   release_test_addn:
     description: "Controls whether additional release tests should be run"
     required: false
-    default: "0"
+    default: "false"
 
 runs:
   using: "composite"
@@ -29,6 +29,11 @@ runs:
         echo "AUTHOR_TESTING=1" >> $GITHUB_ENV
         echo "RELEASE_TESTING=1" >> $GITHUB_ENV
         echo "RELEASE_TEST_ADDN=${{ inputs.release_test_addn }}" >> $GITHUB_ENV
+        if [[ "${{ inputs.release_test_addn }}" == "true"]]
+            echo "RELEASE_TEST_ADDN=1" >> $GITHUB_ENV
+        else
+            echo "RELEASE_TEST_ADDN=0" >> $GITHUB_ENV
+        fi
         echo "TEST_AUTHOR=1" >> $GITHUB_ENV
 
     - name: Build distribution
