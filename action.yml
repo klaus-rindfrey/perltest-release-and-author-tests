@@ -68,7 +68,7 @@ runs:
         cd $DIST_DIR
         if [ -d xt ]; then
           echo "Perform xt tests..."
-          prove -l --recurse xt
+          prove -b --recurse xt
         else
           echo "No xt/ found – skip xt tests."
         fi
